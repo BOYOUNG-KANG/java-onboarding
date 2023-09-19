@@ -44,9 +44,13 @@ public class Problem6 {
 
     private static void containDuplicatedNickname(List<List<String>> forms, Set<String> answer, String key) {
         for (int i = 0; i < forms.size(); i++) {
-            if (forms.get(i).get(1).contains(key)) {
-                answer.add(forms.get(i).get(0));
-            }
+            addDuplicatedNickname(forms, answer, key, i);
+        }
+    }
+
+    private static void addDuplicatedNickname(List<List<String>> forms, Set<String> answer, String key, int i) {
+        if (forms.get(i).get(1).contains(key)) {
+            answer.add(forms.get(i).get(0));
         }
     }
 
@@ -62,14 +66,21 @@ public class Problem6 {
 
     private static void validate(List<List<String>> forms) {
         if (forms.size() < 1 || forms.size() > 10000) throw new IllegalArgumentException();
-
         for (int i = 0; i < forms.size(); i ++) {
-            String email = forms.get(i).get(0);
-            String nickname = forms.get(i).get(1);
-            if (!email.contains("@email.com")) throw new IllegalArgumentException();
-            if (email.length() < 11 || email.length() > 19) throw new IllegalArgumentException();
-            if (!nickname.matches("^[가-힣]*$")) throw new IllegalArgumentException();
-            if (nickname.length() < 1 || nickname.length() > 19) throw new IllegalArgumentException();
+            validateEmail(forms, i);
+            validateNickname(forms, i);
         }
+    }
+
+    private static void validateNickname(List<List<String>> forms, int i) {
+        String nickname = forms.get(i).get(1);
+        if (!nickname.matches("^[가-힣]*$")) throw new IllegalArgumentException();
+        if (nickname.length() < 1 || nickname.length() > 19) throw new IllegalArgumentException();
+    }
+
+    private static void validateEmail(List<List<String>> forms, int i) {
+        String email = forms.get(i).get(0);
+        if (!email.contains("@email.com")) throw new IllegalArgumentException();
+        if (email.length() < 11 || email.length() > 19) throw new IllegalArgumentException();
     }
 }
